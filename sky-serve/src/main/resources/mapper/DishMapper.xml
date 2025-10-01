@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.example.mapper.DishMapper">
+    <resultMap id="dishCategoryVo" type="org.example.vo.DishCategoryVo">
+        <id column="category_id" property="categoryId"/>
+        <result column="category_name" property="categoryName"></result>
+        <collection property="dishList" ofType="org.example.vo.DishVo">
+            <id column="id" property="id"></id>
+            <result column="img" property="img"></result>
+            <result column="dish_name" property="dishName"></result>
+        </collection>
+    </resultMap>
+    <select id="selectDishCategory" resultMap="dishCategoryVo">
+        SELECT category.id AS category_id ,category.`name` AS category_name, dish.id,dish.img,dish.`name` as dish_name from category LEFT JOIN dish ON(dish.category_id=category.id) WHERE LENGTH(dish.`name`)>#{length} AND dish.create_time>#{createTime}
+    </select>
+    <update id="updatePrice">
+        UPDATE dish <set> <if test="price!=null"> price=price-#{price} </if> </set> WHERE `name` like CONCAT("%",#{name});
+    </update>
+
+</mapper>
