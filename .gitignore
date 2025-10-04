@@ -12,6 +12,7 @@ target/
 *.iml
 *.ipr
 sky-serve/src/main/resources/application.yml
+sky-serve/src/main/resources
 ### Eclipse ###
 .apt_generated
 .classpath
