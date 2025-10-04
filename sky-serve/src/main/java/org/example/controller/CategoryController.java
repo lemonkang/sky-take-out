@@ -20,6 +20,7 @@ public class CategoryController {
     @PostMapping
     public Result<Integer> addCategory(@RequestBody @Valid CategoryDto categoryDto) {
         Category category = new Category();
+        System.out.println("test");
         BeanUtils.copyProperties(categoryDto, category);
         int insert = categoryMapper.insert(category);
         return Result.success(insert);
