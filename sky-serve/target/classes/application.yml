@@ -1,0 +1,25 @@
+server:
+  port: 8080
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+jwt:
+  jwt-expiration: 604800000
+  jwt-key: "inno-inno-inno-inno-1234-1234-1234"
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/sky_take?useSSL=false&serverTimezone=UTC&characterEncoding=utf8
+    username: root
+    password: root
+  application:
+    name: sky-one
+
+aliyun:
+ oss:
+  accessKeyId: "LTAI5tKk9bRZ71ZBVzMX23JS"
+  accessKeySecret: "CMYa1tdgLiIAS5Wl4GGmDglGLw6iml"
+  bucketName: "sky-take-out-inno"
+  endpoint: "https://oss-cn-hangzhou.aliyuncs.com"
+  urlPrefix: "https://sky-take-out-inno.oss-cn-hangzhou.aliyuncs.com"

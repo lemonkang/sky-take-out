@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.example.mapper.CategoryMapper">
+  <resultMap id="category_dup" type="org.example.vo.CategoryDupVo">
+    <id property="dupId" column="dup_id"/>
+    <result property="num" column="num"/>
+    <result property="name" column="name"/>
+  </resultMap>
+    <select id="selectCategoryDup"  resultType="org.example.vo.CategoryDupVo">
+      SELECT * from  ( SELECT COUNT(id) as num,name,GROUP_CONCAT(id) as dup_id,GROUP_CONCAT(create_time) as create_time from category GROUP BY `name`) AS categorynew WHERE categorynew.num>1
+    </select>
+</mapper>

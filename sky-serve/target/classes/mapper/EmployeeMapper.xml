@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.example.mapper.EmployeMapper">
+    <insert id="insertEmployeeBatch">
+        INSERT INTO employe (id,employe_name,employe_password) VALUES
+        <foreach collection="employeeList" item="employee" separator=",">(#{employee.id},#{employee.employeName},#{employee.employePassword})
+        </foreach>
+    </insert>
+    <delete id="deleteByEmployeeKey">
+        delete from  employe where id in <foreach collection="ids" item="id" separator="," open="(" close=")">#{id}</foreach>
+    </delete>
+    <update id="updateByEmployeeKey">
+     <foreach collection="employeeList" item="employee" separator=";">
+        update employe set employe_name=#{employee.employeName},employe_password=#{employee.employePassword} where id=#{employee.id}
+     </foreach>
+    </update>
+
+
+</mapper>
