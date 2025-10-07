@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @TableName("orders")
@@ -14,12 +15,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrdersEntity {
-    @TableId(value ="order_id",type = IdType.ASSIGN_ID)
-    private Long orderId;
+    @TableId(value ="id",type = IdType.ASSIGN_ID)
+    private Long id;
     private Long userId;
-    private Long productId;
-    private Double quentity;
-    @TableField(fill = FieldFill.INSERT )
-    private LocalDateTime createTime;
-
+    private BigDecimal totalAmount;
 }

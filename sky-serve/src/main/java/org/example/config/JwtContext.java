@@ -10,10 +10,10 @@ public class JwtContext<T> {
         threadLocal.set(value);
     }
 
-    T getJwtContext() {
+   public T getJwtContext() {
         return threadLocal.get();
     }
-    void clearJwtContext() {
+   public void clearJwtContext() {
         threadLocal.remove();
     }
 

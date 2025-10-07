@@ -7,21 +7,34 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandle {
+    @ExceptionHandler(DeficiencyException.class)
+    public Result deficiencyException(DeficiencyException e) {
+        log.warn("DeficiencyException"+e.getMessage()+e.getData());
+        return Result.error(e.getMessage(),e.getData());
+    }
     // 处理 @Valid 校验失败
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Result<String> handleValidationException(MethodArgumentNotValidException e) {
-        log.error(e.getMessage());
-        // 取第一个错误信息即可
-        String errorMessage = e.getBindingResult().getFieldError().getDefaultMessage();
-        return Result.error(errorMessage);
+    public Result<Map<String, String>> handleValidationException(MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+
+        ex.getBindingResult().getFieldErrors().forEach(error ->
+                errors.put(error.getField(), error.getDefaultMessage())
+        );
+        return Result.error(ex.getMessage(),errors);
+
     }
     @ExceptionHandler(Exception.class)
     public Result<String> exception(Exception e) {
         log.info("GlobalExceptionHandle"+e.getMessage());
         return Result.error(e.getMessage());
     }
+
 
 }

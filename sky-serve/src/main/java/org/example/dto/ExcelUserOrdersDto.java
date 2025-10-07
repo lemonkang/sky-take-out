@@ -20,7 +20,7 @@ public class ExcelUserOrdersDto {
     @ExcelProperty("产品ID")
     private Long productId;
     @ExcelProperty("数量")
-    private Double quentity;
+    private Double quantity;
     @ExcelProperty(value = "订单日期" )
 //    @JsonFormat(pattern = "yyyy年M月d天")
     @DateTimeFormat("yyyy年M月d天")
