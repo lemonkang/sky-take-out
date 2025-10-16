@@ -16,6 +16,16 @@ spring:
   application:
     name: sky-one
 
+  data:
+    cache:
+      type: redis
+    redis:
+      host: localhost
+      port: 6379
+      database: 0
+      password:
+
+
 aliyun:
  oss:
   accessKeyId: "LTAI5tKk9bRZ71ZBVzMX23JS"

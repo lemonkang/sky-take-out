@@ -19,11 +19,9 @@ public class EmployeEntity {
     private Long id;
     private String employeName;
     private String employePassword;
-    private byte[] avatar;
+    private String avatar;
     @TableField(fill = FieldFill.INSERT)
-    @JsonFormat(pattern = "yyyy年MM月dd日 HH:mm:ss")
     private LocalDateTime createTime;
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    @JsonFormat(pattern = "yyyy年MM月dd日 HH:mm:ss")
     private LocalDateTime updateTime;
 }

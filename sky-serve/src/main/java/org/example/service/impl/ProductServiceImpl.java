@@ -64,6 +64,12 @@ public class ProductServiceImpl implements ProductService {
             Double newStock= productEntity.getStock()-orderProductDto.getQuantity();
             UpdateWrapper<ProductEntity> updateWrapper = new UpdateWrapper<ProductEntity>().set("stock", newStock).set("version", productEntity.getVersion() + 1)
                     .eq("id", productEntity.getId()).eq("version", productEntity.getVersion());
+            try {
+                //模拟耗时操作
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
             productMapper.update(updateWrapper);
             OrderDetailEntity orderDetailEntity = OrderDetailEntity.builder().orderId(ordersEntity.getId()).productId(productEntity.getId()).quantity(orderProductDto.getQuantity())
                     .snapShotPrice(orderProductDto.getProductPrice()).build();
@@ -71,5 +77,11 @@ public class ProductServiceImpl implements ProductService {
         }
 
         return new HashMap<>(Map.of("order", ordersEntity, "productList", productList));
+    }
+
+    @Override
+    public ProductEntity productMaxBuy() {
+
+        return null;
     }
 }

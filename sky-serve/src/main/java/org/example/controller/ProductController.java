@@ -3,8 +3,10 @@ package org.example.controller;
 import jakarta.validation.Valid;
 import org.example.config.Result;
 import org.example.dto.OrderProductDto;
+import org.example.entity.ProductEntity;
 import org.example.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,4 +25,5 @@ public class ProductController {
 
         return Result.success(stringObjectMap);
     }
+
 }

@@ -16,7 +16,9 @@ import org.springframework.core.io.ClassPathResource;
 
 import java.io.*;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @Slf4j
@@ -28,23 +30,32 @@ public class EmployeController {
     CategoryMapper categoryMapper;
 
     @PostMapping("/register")
-    public Result<EmployeEntity> register(@ModelAttribute @Valid EmployeRegisterDto emp,@RequestParam MultipartFile file) {
+    public Result<EmployeEntity> register(@ModelAttribute @Valid EmployeRegisterDto emp,@RequestParam(required = false) MultipartFile file) {
         log.info("register employe"+emp.toString());
         EmployeEntity employeEntity ;
+        byte[] bytes=null;
 
         try {
-            byte[] bytes = file.getBytes();
+           if (file != null) {
+               bytes = file.getBytes();
+           }
+
             employeEntity=empService.addEmploye(emp,bytes);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         return Result.success(employeEntity);
     }
+    @PostMapping("/editInfo")
+    public Result<EmployeEntity> editInfo(@ModelAttribute  EmployeRegisterDto emp,@RequestParam MultipartFile file) {
+     return null;
+    }
     @GetMapping("/login")
-    public Result<String> login(@ModelAttribute @Valid EmployeRegisterDto emp){
-        log.info("login emp  "+emp.toString());
-        String token = empService.login(emp.getEmployeName(), emp.getEmployePassword());
-        return Result.success(token);
+    public Result<Map<String,Object>> login(@ModelAttribute @Valid EmployeRegisterDto emp){
+
+        Map<String, Object> login = empService.login(emp.getEmployeName(), emp.getEmployePassword());
+
+        return Result.success(login);
     }
     @GetMapping("/info/{userId}")
     public Result<EmployeEntity> info(@PathVariable Long userId){
@@ -68,7 +79,7 @@ public class EmployeController {
         response.setContentType("image/png");
         response.setHeader("Content-Disposition", "attachment; filename=" + URLEncoder.encode(downloadName, "UTF-8"));
         ServletOutputStream outputStream = response.getOutputStream();
-        outputStream.write(employeEntity.getAvatar());
+//        outputStream.write(employeEntity.getAvatar());
         outputStream.flush();
 
 
