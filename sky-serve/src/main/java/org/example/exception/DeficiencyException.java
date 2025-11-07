@@ -3,7 +3,7 @@ package org.example.exception;
 import lombok.Data;
 
 @Data
-public class DeficiencyException extends RuntimeException {
+public class DeficiencyException extends Exception {
     private Object data;
     private String message;
     public DeficiencyException(){}

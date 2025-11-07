@@ -9,7 +9,10 @@ import org.example.entity.Category;
 import org.example.entity.EmployeEntity;
 import org.example.mapper.CategoryMapper;
 import org.example.service.EmployeService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.core.io.ClassPathResource;
@@ -47,13 +50,18 @@ public class EmployeController {
         return Result.success(employeEntity);
     }
     @PostMapping("/editInfo")
-    public Result<EmployeEntity> editInfo(@ModelAttribute  EmployeRegisterDto emp,@RequestParam MultipartFile file) {
-     return null;
+    public Result<EmployeEntity> editInfo(@ModelAttribute   EmployeRegisterDto emp,@RequestParam(required = false) MultipartFile file) throws IOException {
+
+        empService.editInfo(emp, file.getBytes());
+
+
+        return null;
     }
     @GetMapping("/login")
-    public Result<Map<String,Object>> login(@ModelAttribute @Valid EmployeRegisterDto emp){
+    public Result<String> login(@RequestParam String employeName,@RequestParam String employePassword){
+        log.info("===控制层 login接口===");
 
-        Map<String, Object> login = empService.login(emp.getEmployeName(), emp.getEmployePassword());
+        String login = empService.login(employeName,employePassword);
 
         return Result.success(login);
     }

@@ -10,6 +10,7 @@ import org.example.constant.CategoryConstantStatus;
 import org.example.constant.TaskStatusEnum;
 import org.example.constant.Type;
 
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -27,7 +28,7 @@ public class Category {
 
     private Type type;
 
-    private LocalDate productTime;
+    private Time productTime;
 
 
     @TableField(fill = FieldFill.INSERT)

@@ -32,7 +32,13 @@ public class GlobalExceptionHandle {
     }
     @ExceptionHandler(Exception.class)
     public Result<String> exception(Exception e) {
-        log.info("GlobalExceptionHandle"+e.getMessage());
+        // 打印完整堆栈信息
+        log.error("GlobalExceptionHandle 捕获异常: ", e);
+
+        // 可选：只打印第一条堆栈（最顶层出错位置）
+        StackTraceElement element = e.getStackTrace()[0];
+        log.error("异常发生在类：{} 方法：{} 行号：{}",
+                element.getClassName(), element.getMethodName(), element.getLineNumber());
         return Result.error(e.getMessage());
     }
 

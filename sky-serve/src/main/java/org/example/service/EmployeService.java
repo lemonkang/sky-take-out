@@ -8,6 +8,6 @@ import java.util.Map;
 public interface EmployeService {
     EmployeEntity addEmploye(EmployeRegisterDto emp,byte[] avatar);
     EmployeEntity editInfo(EmployeRegisterDto emp,byte[] avatar);
-    Map<String,Object> login(String employeName, String employePassword );
+    String login(String employeName, String employePassword );
     EmployeEntity infoById(Long id);
 }

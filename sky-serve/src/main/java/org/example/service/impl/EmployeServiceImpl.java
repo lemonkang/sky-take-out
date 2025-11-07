@@ -14,6 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +33,8 @@ public class EmployeServiceImpl implements EmployeService {
     JwtContext jwtContext;
     @Autowired
     JwtUtil jwtUtil;
+    @Autowired
+    RedisTemplate redisTemplate;
 
     @CachePut(key = "#emp.employeName")
     @Override
@@ -48,26 +53,30 @@ public class EmployeServiceImpl implements EmployeService {
 
     @Override
     public EmployeEntity editInfo(EmployeRegisterDto emp, byte[] avatar) {
-        EmployeEntity oldEmployeEntity = (EmployeEntity)jwtContext.getJwtContext();
-        BeanCopyUtil.copyNonNullProperties(emp,oldEmployeEntity);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        EmployeEntity oldEmployeEntity = (EmployeEntity)authentication.getPrincipal();
+//        BeanUtils.copyProperties(oldEmployeEntity,emp);
+         BeanCopyUtil.copyNonNullProperties(emp,oldEmployeEntity);
+
         if (avatar!=null&&avatar.length>0) {
             String base64 = Base64.getEncoder().encodeToString(avatar);
             oldEmployeEntity.setAvatar(base64);
         }
         empMapper.updateById(oldEmployeEntity);
+
         return oldEmployeEntity;
     }
 
     @Override
-    @Cacheable(key = "#employeName")
-    public Map<String,Object> login(String employeName, String employePassword) {
+//    @Cacheable(key = "#employeName")
+    public String login(String employeName, String employePassword) {
         EmployeEntity employeEntity = empMapper.selectOne(new QueryWrapper<EmployeEntity>().eq("employe_name", employeName));
         if (employeEntity == null) {
             return null;
         }
         if (employePassword.equals(employeEntity.getEmployePassword())) {
             String token = jwtUtil.generateToken(employeName);
-            return Map.of("token", token,"employeEntity", employeEntity);
+            return token;
         }
         return null;
     }
