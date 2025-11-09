@@ -15,15 +15,6 @@ spring:
     password: root
   application:
     name: sky-one
-  rabbitmq:
-    host: localhost
-    port: 5672
-    username: admin
-    password: 123456
-    virtual-host: /
-    
-
-
 
 
   data:

@@ -22,7 +22,6 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.*;
 
 @RestController
 @Slf4j
@@ -65,61 +64,6 @@ public class EmployeController {
         String login = empService.login(employeName,employePassword);
 
         return Result.success(login);
-    }
-    @GetMapping("/schedule-back")
-    public Result<Integer> scheduleBack(){
-        Integer returnCount=0;
-        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
-        System.out.println(1);
-        ScheduledFuture<Integer> schedule = scheduledExecutorService.schedule(() -> {
-            int count=0;
-            for (int i=0;i<10;i++){
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-                count++;
-            }
-            System.out.println(2);
-            return count;
-        }, 20, TimeUnit.SECONDS);
-        System.out.println(3);
-        try {
-            returnCount = schedule.get();
-            System.out.println(4);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        } catch (ExecutionException e) {
-            throw new RuntimeException(e);
-        }
-
-        return Result.success(returnCount);
-    }
-    @GetMapping("/schedule")
-    public Result<Integer> schedule(){
-        Integer returnCount=0;
-        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
-        System.out.println(1);
-       scheduledExecutorService.schedule(() -> {
-            int count=0;
-            for (int i=0;i<10;i++){
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-                count++;
-            }
-
-            System.out.println(2);
-
-        }, 20, TimeUnit.SECONDS);
-        System.out.println(3);
-        scheduledExecutorService.shutdown();
-
-
-        return Result.success(returnCount);
     }
     @GetMapping("/info/{userId}")
     public Result<EmployeEntity> info(@PathVariable Long userId){
