@@ -5,10 +5,12 @@ import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.example.config.RabbitConfig;
 import org.example.entity.EmployeEntity;
 import org.junit.jupiter.api.Test;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -18,6 +20,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
@@ -29,17 +32,14 @@ public class AppTest {
     RedisTemplate redisTemplate;
     @Autowired
     RedissonClient redissonClient;
+    @Autowired
+    RabbitTemplate rabbitTemplate;
 
 
     @Test
     public void test1(){
-        RLock lock = redissonClient.getLock("keylock");
-        try {
-            boolean b = lock.tryLock(5, TimeUnit.SECONDS);
-            System.out.println(b);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+
+
 
 
     }
@@ -66,9 +66,11 @@ public class AppTest {
     }
     @Test
     public void test05(){
-        int a=10;
-        long b=a;
-        int c=(int)b;
+        AtomicInteger atomicInteger = new AtomicInteger(10);
+        atomicInteger.addAndGet(1);
+        System.out.println(atomicInteger.get());
+
+
     }
 
 
