@@ -33,13 +33,9 @@ public class AppTest {
 
     @Test
     public void test1(){
-        RLock lock = redissonClient.getLock("keylock");
-        try {
-            boolean b = lock.tryLock(5, TimeUnit.SECONDS);
-            System.out.println(b);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+     redisTemplate.opsForHash().increment("userId","productId1",1);
+        redisTemplate.opsForHash().increment("userId","productId1",1);
+     redisTemplate.opsForHash().increment("userId","productId2",1);
 
 
     }
