@@ -6,12 +6,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.example.entity.EmployeEntity;
+import org.example.websocket.MyWebSocketHandle;
 import org.junit.jupiter.api.Test;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.web.socket.WebSocketSession;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -29,13 +31,13 @@ public class AppTest {
     RedisTemplate redisTemplate;
     @Autowired
     RedissonClient redissonClient;
+    @Autowired
+    MyWebSocketHandle myWebSocketHandle;
 
 
     @Test
     public void test1(){
-     redisTemplate.opsForHash().increment("userId","productId1",1);
-        redisTemplate.opsForHash().increment("userId","productId1",1);
-     redisTemplate.opsForHash().increment("userId","productId2",1);
+        myWebSocketHandle.SESSION_MAP
 
 
     }

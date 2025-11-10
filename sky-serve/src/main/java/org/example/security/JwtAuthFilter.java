@@ -34,7 +34,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     
     // 允许匿名访问的路径列表（与SecurityConfig中的permitAll保持一致）
     private static final List<String> PERMIT_ALL_PATHS = Arrays.asList(
-        "/login", "/register", "/error", "/download", "/oss"
+        "/login", "/register", "/error", "/download", "/oss","/ws","/socket"
     );
     
 
@@ -42,6 +42,14 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String requestPath = request.getRequestURI();
         log.info("JwtAuthFilter处理请求: {}", requestPath);
+        
+        // 放行 WebSocket 握手请求
+        String upgradeHeader = request.getHeader("Upgrade");
+        if (upgradeHeader != null && "websocket".equalsIgnoreCase(upgradeHeader)) {
+            log.info("检测到 WebSocket 升级请求，直接放行");
+            filterChain.doFilter(request, response);
+            return;
+        }
         
         boolean isWhitePath = PERMIT_ALL_PATHS.stream().anyMatch(item -> requestPath.startsWith(item));
         if (isWhitePath) {

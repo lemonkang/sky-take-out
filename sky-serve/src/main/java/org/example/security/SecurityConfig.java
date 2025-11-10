@@ -22,7 +22,7 @@ public class SecurityConfig  {
                 // 3. 配置哪些接口可以不登录访问
                 .authorizeHttpRequests(auth -> auth
                         // 登录接口允许匿名访问，不用携带 token
-                        .requestMatchers("/login","/login/**","/register", "/register/**", "/error","/download/**","/oss/**").permitAll()
+                        .requestMatchers("/login","/login/**","/register", "/register/**", "/error","/download/**","/oss/**","/ws/**","/socket/**").permitAll()
 
                         // 其他任何请求都必须携带 token
                         .anyRequest().authenticated()

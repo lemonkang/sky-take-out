@@ -12,7 +12,8 @@ public class WebInterceptor implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry
-                .addInterceptor(customInterceptor);
+                .addInterceptor(customInterceptor)
+                .excludePathPatterns("/socket/**");
     }
 
 }
